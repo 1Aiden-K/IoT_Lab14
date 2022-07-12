@@ -26,8 +26,6 @@ void callback(char *topic, byte *payload, unsigned int length)
   String s = p;
   double value = s.toFloat();
 
-  Serial.println(topic);
-
   if (String(topic) == "christianity/lat")
   {
     lat = value;
@@ -42,8 +40,6 @@ MQTT client("lab.thewcl.com", 1883, callback);
 
 void setup()
 {
-  Serial.begin(9600);
-
   display.setup();
   display.setCursor(0, 0);
   display.setTextSize(1);
@@ -63,12 +59,6 @@ void loop()
       moment = millis();
       client.publish("christianity", "GIVE ME THE POSITION!");
     }
-
-    display.clearDisplay();
-    display.setCursor(0, 0);
-    display.println("Latitude: " + String(lat));
-    display.println("Longitude: " + String(longi));
-    display.display();
   }
   else
   {
@@ -76,4 +66,12 @@ void loop()
     client.subscribe("christianity/lat");
     client.subscribe("christianity/longi");
   }
+
+  display.clearDisplay();
+  display.setCursor(0, 0);
+  display.print("Latitude: ");
+  display.println(lat);
+  display.print("Longitude: ");
+  display.println(longi);
+  display.display();
 }
